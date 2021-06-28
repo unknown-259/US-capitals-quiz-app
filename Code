@@ -1,0 +1,51 @@
+// US Image: https://www.veteransflagdepot.com/2-ply-state-flag
+// State flag images from code.org
+// US States dataset from code.org
+
+var stateList = getColumn("US States", "State Name");
+var capitalsList = getColumn("US States", "Capital");
+var abvList = getColumn("US States", "Code Name");
+var stateFlagList = getColumn("US States", "State Flag");
+var nicknameList = getColumn("US States", "Nickname");
+var numb = randomNumber(0, stateList.length-1);
+
+randomState(numb);
+
+onEvent("buttonPlayAgain", "click", function( ) {
+  numb = randomNumber(0, stateList.length-1);
+  randomState(numb);
+  setText("inputCapital", "");
+  setText("inputAbbreviation", "");
+  setText("outputAnswer", "");
+});
+
+onEvent("buttonCheck", "click", function( ) {
+  checkCapital(numb);
+});
+
+function randomState(number) {
+  var stateName = stateList[number];
+  setText("OutputText", "What is the capital and abbreviation of: " + stateName);
+  setImageURL("image", stateFlagList[number]);
+}
+
+function checkCapital(number) {
+  var stateCap = capitalsList[number] .toUpperCase();
+  var capitalInput = getText("inputCapital").toUpperCase();
+  var abbrInput = (getText("inputAbbreviation")).toUpperCase();
+  if (capitalInput == stateCap && abbrInput == abvList[number]){
+    setText("outputAnswer", ("You are correct!\n" + "The state's nickname is: ") + funFact(numb));
+  } else {
+   setText("outputAnswer", "That is incorrect");
+  }
+}
+
+function funFact(number) {
+  var nickname = nicknameList[60];
+  for (var i = 0; i < stateList.length; i++) {
+    if (i == number) {
+      nickname = nicknameList[i];
+    }
+  }
+  return nickname;
+}
